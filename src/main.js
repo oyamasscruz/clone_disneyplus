@@ -2,6 +2,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // adicionando uma listener ao final do carregamento da pagina.
     // criando uma constante para poder pegar todos os butões e o [] é para informar o atributo.
     const buttons = document.querySelectorAll('[data-tab-button]');
+    const questions = document.querySelectorAll('[data-faq-question]'); // aqui estamos criando uma constante para poder acessar as perguntas.
+
+    const heroSection = document.querySelector('.hero'); //recuperando a seção hero//
+    const heigthHero = heroSection.clientHeight;// recuperando a altura da seção hero// 
+
+    window.addEventListener('scroll', function() {
+        const actualPosition = window.scrollY;
+
+        if (actualPosition < heigthHero) {
+            hideClass();
+        } else {
+            showClass();
+        }
+    })
+
 
     for (let i = 0; i < buttons.length; i++) {
         // aqui vamos pegar a constante que criamos "todos os butões" e adicionar um evento, o evento de clique.
@@ -16,7 +31,28 @@ document.addEventListener('DOMContentLoaded', function() {
             botao.target.classList.add('shows__tabs__button--is--active');//aqui está adicionando a classe no botão.
         })
     }
+
+    for (let i = 0; i < questions.length; i++) {
+        questions[i].addEventListener('click', closeOrOpen);
+    }
 })
+
+function hideClass() {
+    const header = document.querySelector('header'); //recuperei o header, para adicionar, esta classe no header mesmo.
+    header.classList.add('header--is-hidden');
+}
+
+function showClass() {
+    const header = document.querySelector('header');
+    header.classList.remove('header--is-hidden');
+}
+
+function closeOrOpen(element) { //se passarmos o console.log(element), veremos que com essa função estamos acessando a div dentro do li, ou seja estamos acessando faq__questions__item__questions, contudo para abrir e fechar, é necessário acessar o elemento pai, o LI faq__questions__item
+    const faqClass = 'faq__questions__item--is-open';
+    const elementNode =  element.target.parentNode;
+
+    elementNode.classList.toggle(faqClass);
+}
 // aqui fizemos o mesmo para a tabs, tiramos a classe do botão
 function hideBorderButton() {
     const buttons = document.querySelectorAll('[data-tab-button]');
